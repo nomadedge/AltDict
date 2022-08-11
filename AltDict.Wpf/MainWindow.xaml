@@ -1,0 +1,306 @@
+﻿<Window x:Class="AltDict.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AltDict.Wpf"
+        mc:Ignorable="d"
+        Title="Alternative Dictionary" Height="450" Width="800"
+        MinHeight="450" MinWidth="800">
+    <TabControl>
+        <TabItem Header="Connections">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Row 0 -->
+
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Row 0 Column 0 -->
+
+                        <Border Grid.Column="0"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Margin="5">
+                            <StackPanel Margin="5">
+                                <Label Content="Add new connection"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                                <Grid x:Name="AddNewConnectionGrid" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                       Content="Vendor Code 1"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                         Text="{Binding VendorCode1}"/>
+
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                       Content="Manufacturer 1"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                         Text="{Binding Manufacturer1}"/>
+
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                       Content="Vendor Code 2"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1"
+                                         Text="{Binding VendorCode2}"/>
+
+                                    <Label Grid.Row="3" Grid.Column="0"
+                                       Content="Manufacturer 2"/>
+                                    <TextBox Grid.Row="3" Grid.Column="1"
+                                         Text="{Binding Manufacturer2}"/>
+
+                                    <Label Grid.Row="4" Grid.Column="0"
+                                       Content="Trust"/>
+                                    <TextBox Grid.Row="4" Grid.Column="1"
+                                         Text="{Binding TrustLevel}"
+                                         PreviewTextInput="ValidateInput"
+                                         DataObject.Pasting="ValidatePaste"/>
+
+                                    <Button Grid.Row="5" Grid.ColumnSpan="2"
+                                        Content="Add"
+                                        Click="AddConnection"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Row 0 Column 1 -->
+
+                        <Border Grid.Column="1"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Margin="5">
+                            <StackPanel Margin="5">
+                                <Label Content="Edit connection"
+                                   VerticalAlignment="Center"/>
+
+                                <Grid x:Name="EditConnectionGrid" Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                       Content="Vendor Code 1"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1"
+                                         Text="{Binding VendorCode1}"/>
+
+                                    <Label Grid.Row="1" Grid.Column="0"
+                                       Content="Manufacturer 1"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1"
+                                         Text="{Binding Manufacturer1}"/>
+
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                       Content="Vendor Code 2"/>
+                                    <TextBox Grid.Row="2" Grid.Column="1"
+                                         Text="{Binding VendorCode2}"/>
+
+                                    <Label Grid.Row="3" Grid.Column="0"
+                                       Content="Manufacturer 2"/>
+                                    <TextBox Grid.Row="3" Grid.Column="1"
+                                         Text="{Binding Manufacturer2}"/>
+
+                                    <Label Grid.Row="4" Grid.Column="0"
+                                       Content="Trust level"/>
+                                    <TextBox Grid.Row="4" Grid.Column="1"
+                                         Text="{Binding TrustLevel}"
+                                         PreviewTextInput="ValidateInput"
+                                         DataObject.Pasting="ValidatePaste"/>
+
+                                    <Button Grid.Row="5" Grid.Column="0"
+                                        x:Name="SaveButton"
+                                        IsEnabled="False"
+                                        Content="Save Changes"
+                                        Click="EditConnection"/>
+                                    <Button Grid.Row="5" Grid.Column="1"
+                                        x:Name="CancelButton"
+                                        IsEnabled="False"
+                                        Content="Cancel"
+                                        Click="CancelEdit"/>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- Row 1 -->
+
+                    <DataGrid Grid.Row="1" Grid.ColumnSpan="2"
+                          x:Name="ConnectionsDataGrid"
+                          IsReadOnly="True"
+                          AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Vendor Code 1"
+                                            Binding="{Binding VendorCode1}"/>
+                            <DataGridTextColumn Header="Manufacturer 1"
+                                            Binding="{Binding Manufacturer1}"/>
+                            <DataGridTextColumn Header="Vendor Code 2"
+                                            Binding="{Binding VendorCode2}"/>
+                            <DataGridTextColumn Header="Manufacturer 2"
+                                            Binding="{Binding Manufacturer2}"/>
+                            <DataGridTextColumn Header="Trust level"
+                                            Binding="{Binding TrustLevel}"/>
+                            <DataGridTemplateColumn Header="Edit Connection">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Edit"
+                                            Click="SetConnectionForEdit"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Delete Connection">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Delete"
+                                            Click="DeleteConnection"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                </Grid>
+            </ScrollViewer>
+        </TabItem>
+        
+        <TabItem Header="Search">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                          VerticalScrollBarVisibility="Auto">
+                <Grid Margin="10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Row 0 -->
+
+                    <Border Grid.Row="0"
+                            BorderBrush="Black"
+                            BorderThickness="1"
+                            Margin="5">
+                        <StackPanel Margin="5">
+                            <Label Content="Search Routes"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"/>
+
+                            <Grid x:Name="SearchRoutesGrid" Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       Content="Vendor Code 1"/>
+                                <TextBox Grid.Row="0" Grid.Column="1"
+                                         Text="{Binding VendorCode1}"/>
+
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       Content="Manufacturer 1"/>
+                                <TextBox Grid.Row="1" Grid.Column="1"
+                                         Text="{Binding Manufacturer1}"/>
+
+                                <Label Grid.Row="2" Grid.Column="0"
+                                       Content="Vendor Code 2"/>
+                                <TextBox Grid.Row="2" Grid.Column="1"
+                                         Text="{Binding VendorCode2}"/>
+
+                                <Label Grid.Row="3" Grid.Column="0"
+                                       Content="Manufacturer 2"/>
+                                <TextBox Grid.Row="3" Grid.Column="1"
+                                         Text="{Binding Manufacturer2}"/>
+
+                                <Label Grid.Row="4" Grid.Column="0"
+                                       Content="Search Depth"/>
+                                <TextBox Grid.Row="4" Grid.Column="1"
+                                         Text="{Binding SearchDepth}"
+                                         PreviewTextInput="ValidateInput"
+                                         DataObject.Pasting="ValidatePaste"/>
+
+                                <Button Grid.Row="5" Grid.ColumnSpan="2"
+                                        Content="Search"
+                                        Click="SearchRoutes"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Row 1 -->
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid Grid.Column="0"
+                                  x:Name="SearchResultRoutesDataGrid"
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Routes"
+                                                    Binding="{Binding RouteName}"/>
+                                <DataGridTemplateColumn Header="Show Route">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Button Content="Show"
+                                            Click="ShowRoute"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <DataGrid Grid.Column="1"
+                                  x:Name="SearchResultStepsDataGrid"
+                                  IsReadOnly="True"
+                                  AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Route Steps"
+                                                    Binding="{Binding RouteStep}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </TabItem>
+    </TabControl>
+    
+</Window>
