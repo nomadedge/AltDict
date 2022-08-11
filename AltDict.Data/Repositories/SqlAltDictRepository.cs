@@ -197,15 +197,15 @@ namespace AltDict.Data.Repositories
             {
                 routes.Add(route);
             }
-
-            visited[(vendorCode1, manufacturer1)] = true;
+            var localVisited = new Dictionary<(string, string), bool>(visited);
+            localVisited[(vendorCode1, manufacturer1)] = true;
 
             var cons = connections.Where(c =>
                 (c.VendorCode1 == vendorCode1 && c.Manufacturer1 == manufacturer1) ||
-                (c.VendorCode2 == vendorCode1 && c.Manufacturer2 == manufacturer2))
+                (c.VendorCode2 == vendorCode1 && c.Manufacturer2 == manufacturer1))
                 .Select(c => new {
                     Connection = c,
-                    IsTargetFirst = c.VendorCode1 == vendorCode2 && c.Manufacturer1 == manufacturer2
+                    IsTargetFirst = c.VendorCode2 == vendorCode1 && c.Manufacturer2 == manufacturer1
                 })
                 .ToList();
 
@@ -214,7 +214,7 @@ namespace AltDict.Data.Repositories
                 var targetKey = con.IsTargetFirst ?
                     (con.Connection.VendorCode1, con.Connection.Manufacturer1) :
                     (con.Connection.VendorCode2, con.Connection.Manufacturer2);
-                if ((!visited.TryGetValue(targetKey, out bool isVisited) || !isVisited) && con.Connection.TrustLevel > 0)
+                if ((!localVisited.TryGetValue(targetKey, out bool isVisited) || !isVisited) && con.Connection.TrustLevel > 0)
                 {
                     if (searchDepth - 1 >= 0)
                     {
@@ -238,14 +238,14 @@ namespace AltDict.Data.Repositories
                             vendorCode2,
                             manufacturer2,
                             (byte)(searchDepth - 1),
-                            visited,
+                            localVisited,
                             routes,
                             localRoute);
                     }
                 }
             }
 
-            visited[(vendorCode1, manufacturer1)] = false;
+            localVisited[(vendorCode1, manufacturer1)] = false;
         }
     }
 }
